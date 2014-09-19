@@ -3,7 +3,26 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-platform
+
+# Standard Meteor packages
+standard-minifiers
+meteor-base
+mobile-experience
+mongo
+blaze-html-templates
+session
+jquery
+tracker
+logging
+reload
+random
+ejson
+spacebars
+check
+
+# Useful packages
+kadira:flow-router
+kadira:blaze-layout
+
+# For demo purposes - see http://docs.meteor.com/#/full/allow for more info
 insecure
-coffeescript
-iron:router
