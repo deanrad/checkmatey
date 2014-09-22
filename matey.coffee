@@ -1,1 +1,1 @@
-Router.route "home", path: "/"
+# Router.route "home", path: "/"
