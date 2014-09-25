@@ -5,11 +5,12 @@
 
   render: (board) ->
     console.info("Rendering board")
-    new ChessBoard @clientId,
-      draggable: true
-      onDrop: (source, target) ->
-        console.log "Moving from #{source} to #{target}, NOW WHAT?"
-      position: board.pieces
+    if $("#"+@clientId).length
+      new ChessBoard @clientId,
+        draggable: true
+        onDrop: (source, target) ->
+          console.log "Moving from #{source} to #{target}, NOW WHAT?"
+        position: board.pieces
 
   move: (board, from, to) ->
     newPieces = _.clone(board.pieces)
