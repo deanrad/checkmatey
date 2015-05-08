@@ -8,3 +8,4 @@ iron:router
 
 # for demo purposes only - see http://docs.meteor.com/#/full/allow for security info
 insecure
+msavin:mongol
