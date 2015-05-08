@@ -4,6 +4,7 @@
 # but you can also edit it by hand.
 
 meteor-platform
-insecure
-coffeescript
 iron:router
+
+# for demo purposes only - see http://docs.meteor.com/#/full/allow for security info
+insecure

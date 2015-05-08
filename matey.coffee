@@ -1,1 +1,0 @@
-# Router.route "home", path: "/"
