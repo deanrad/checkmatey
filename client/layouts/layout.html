@@ -5,10 +5,7 @@
 
   {{> newGame }}
 
-  <div id="chessboard-js-board" style="width:400px"></div>
-  <script>
-  Board.render(Board.initialBoard)
-  </script>
+  {{> yield }}
 </template>
 
 <template name="newGame">
