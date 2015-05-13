@@ -8,3 +8,11 @@ iron:router
 
 # for demo purposes only - see http://docs.meteor.com/#/full/allow for security info
 insecure
+
+# login components
+accounts-ui
+accounts-base
+accounts-password
+
+# other login packages include
+# accounts-github, accounts-facebook, etc..
