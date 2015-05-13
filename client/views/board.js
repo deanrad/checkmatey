@@ -15,3 +15,12 @@ Template.board.helpers({
     return MovesCollection.find({from: {$ne: null}});
   }
 });
+
+var myShakeEvent = new Shake({
+    threshold: 5, // optional shake strength threshold
+    timeout: 1000 // optional, determines the frequency of event generation
+});
+myShakeEvent.start();
+window.addEventListener('shake', function () {
+  if(currentBoard) currentBoard.flip();
+});
