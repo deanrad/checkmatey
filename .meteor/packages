@@ -6,9 +6,6 @@
 meteor-platform
 iron:router
 
-# for demo purposes only - see http://docs.meteor.com/#/full/allow for security info
-insecure
-
 # login components
 accounts-ui
 accounts-base
