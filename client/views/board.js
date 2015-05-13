@@ -7,3 +7,9 @@ Tracker.autorun(function () {
     Board.render(_.last(moves).board);
   }
 });
+
+Template.board.helpers({
+  moves: function () {
+    return MovesCollection.find({from: {$ne: null}});
+  }
+});
