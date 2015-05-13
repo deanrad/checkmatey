@@ -1,3 +1,11 @@
 <template name="board">
-  <div id="chessboard-js-board" style="width:320px"></div>
+  <div id="chessboard-js-board" style="float:left; width:320px"></div>
+  <div id="move-list" style="float:right">
+    <h3>Move List</h3>
+    <ol>
+      {{#each moves}}
+      <li>{{from}}-{{to}}</li>
+      {{/each}}
+    </ol>
+  </div>
 </template>

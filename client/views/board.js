@@ -6,3 +6,9 @@ MovesCollection.find().observeChanges({
     Board.render(move.board);
   }
 });
+
+Template.board.helpers({
+  moves: function () {
+    return MovesCollection.find({from: {$ne: null}});
+  }
+});
