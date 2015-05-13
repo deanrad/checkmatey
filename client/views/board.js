@@ -4,6 +4,9 @@ MovesCollection.find().observeChanges({
     //console.info("new board")
     //window.currentBoard = move.board;
     Board.render(move.board);
+  },
+  removed: function () {
+    Board.render(Board.initialBoard);
   }
 });
 
