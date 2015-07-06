@@ -1,13 +1,9 @@
-MovesCollection.find().observeChanges({
-  added: function (id, move) {
-    //for debugging
-    //console.info("new board")
-    //window.currentBoard = move.board;
-    Board.render(move.board);
-  },
-  removed: function () {
-    Board.render(Board.initialBoard);
-  }
+// Reactive dependency upon MovesCollection.find()
+// - any time the set of moves changes, render the
+//   board of the last one
+Tracker.autorun(function () {
+  var moves = MovesCollection.find().fetch();
+  Board.render(_.last(moves).board);
 });
 
 Template.board.helpers({
