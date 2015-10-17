@@ -1,5 +1,6 @@
 {
   "scripts": {
-    "start": "meteor --port 3120"
+    "start": "meteor --port 3120",
+    "deploy": "meteor deploy checkmatey.meteor.com"
   }
 }

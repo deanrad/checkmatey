@@ -1,3 +1,3 @@
 FlowRouter.route("/", {
-  action() { BlazeLayout.render("layout", {}) }
+  action: function () { BlazeLayout.render("layout", {}) }
 })

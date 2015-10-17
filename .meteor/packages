@@ -16,6 +16,7 @@ tracker
 logging
 reload
 random
+ecmascript
 ejson
 spacebars
 check
