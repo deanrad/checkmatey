@@ -1,0 +1,1 @@
+ChessLayout = BlazeToReact("layout")
