@@ -22,8 +22,11 @@ spacebars
 check
 
 # Useful packages
+react
 kadira:flow-router
 kadira:blaze-layout
+kadira:react-layout
+thereactivestack:blazetoreact # cuz I'm lazy
 
 # For demo purposes - see http://docs.meteor.com/#/full/allow for more info
 insecure
