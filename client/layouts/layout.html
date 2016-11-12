@@ -1,0 +1,18 @@
+<template name="layout">
+  <h1>Ahoy, Matey!</h1>
+
+  Would you care for a game of Chess ?
+
+  {{> newGame }}
+
+  <div id="chessboard-js-board" style="width:400px"></div>
+  <script>
+  Board.render(Board.initialBoard)
+  </script>
+</template>
+
+<template name="newGame">
+  <div id="new-game">
+    <button id="reset">Reset Game</button>
+  </div>
+</template>
