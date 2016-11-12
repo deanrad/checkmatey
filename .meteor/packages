@@ -18,6 +18,8 @@ random@1.0.10
 ejson@1.0.13
 spacebars
 check@1.2.4
+promise
+ecmascript
 
 # Useful packages
 kadira:flow-router
