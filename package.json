@@ -1,5 +1,10 @@
 {
   "scripts": {
     "start": "meteor --port 3120"
+  },
+  "dependencies": {
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-mounter": "^1.2.0"
   }
 }
