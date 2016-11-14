@@ -1,4 +1,6 @@
-import ChessBoard from '/imports/components/chess/ChessBoard'
+import ChessBoardWithData from '/imports/components/chess/ChessBoardWithData'
 import { mount } from 'react-mounter'
 
-mount(ChessBoard)
+FlowRouter.route('/', {
+  action() { mount(ChessBoardWithData) }
+})

@@ -1,40 +1,53 @@
 /* global: window.ChessBoard */
+import { Meteor } from 'meteor/meteor'
 import React from 'react'
 
 const chessboardId = 'chessboard-js'
 
+let makeMove = (move, { from, to }) => {
+  let mover, newPieces
+  newPieces = Object.assign({}, move.position)
+  mover = newPieces[from]
+  delete newPieces[from]
+  newPieces[to] = mover
+  return {
+    from,
+    to,
+    position: newPieces
+  }
+}
+
 // TODO destructure
-let initChess = (board) => {
-  let { position } = board
+let rebindBoard = (move) => {
+  let { position } = move
 
   new window.ChessBoard(chessboardId, {
     draggable: true,
     position: position,
     onDrop: (from, to) => {
-      console.log(`LEFTOFF Moving from ${from}, to ${to}`)
+      Meteor.call('makeMove', makeMove(move, { from, to }))
     }
   })
 }
 
 export default class ChessBoard extends React.Component {
   render() {
-    let { position }  = this.props
     return (
       <div>
-      <h1 style={ {display: 'none'} }>TODO make a chessboard: { JSON.stringify(position) }</h1>
+      <h1>How about a nice game of Chess?</h1>
       <div id={ chessboardId } style={ {width: 600} }></div>
       </div>
     )
   }
 
   componentDidMount() {
-    console.log('R> CDM')
-    initChess(this.props)
+    console.log('R> ComponentDidMount')
+    rebindBoard(this.props.move)
   }
 
   // The most common uses of componentDidUpdate() is managing 3rd party UI elements
   componentDidUpdate() {
-    console.log('R> CDU')
-    initChess(this.props)
+    console.log('R> ComponentDidUpdate')
+    rebindBoard(this.props.move)
   }
 }

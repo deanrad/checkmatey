@@ -25,8 +25,6 @@ ecmascript
 kadira:flow-router
 kadira:blaze-layout
 
-# For demo purposes - see http://docs.meteor.com/#/full/allow for more info
-insecure@1.0.7
 standard-minifier-css
 standard-minifier-js
 shell-server
