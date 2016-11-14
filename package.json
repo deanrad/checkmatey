@@ -1,7 +1,8 @@
 {
   "name": "checkmatey.meteor.com",
   "scripts": {
-    "start": "meteor run --port 3120"
+    "start": "meteor run --port 3120",
+    "deploy": "test -f config/settings_production.json && DEPLOY_HOSTNAME=galaxy.meteor.com meteor deploy checkmatey.meteorapp.com --settings config/settings_production.json || echo 'config/settings_production.json not found - aborting'"
   },
   "dependencies": {
     "babel-runtime": "6.18.0",
