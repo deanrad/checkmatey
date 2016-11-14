@@ -1,6 +1,7 @@
 /* global: window.ChessBoard */
 import { Meteor } from 'meteor/meteor'
 import React from 'react'
+import { makeMove, makeNewPositionWithMovePlayed } from '/lib/methods'
 
 const chessboardId = 'chessboard-js'
 
@@ -11,7 +12,12 @@ let rebindChessBoard = (move) => {
     draggable: true,
     position: position,
     onDrop: (from, to) => {
-      console.log('TODO make move, actually')
+      let newPos = makeNewPositionWithMovePlayed(position, { from, to })
+      makeMove.call({
+        from,
+        to,
+        position: newPos
+      })
     }
   })
 }

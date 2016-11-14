@@ -6,8 +6,8 @@ const composer = (params, notify) => {
     console.log('composing React props')
 
     const noError = null
-    let count = Moves.find().count();
-    let mostRecentMove = Moves.find().fetch()[count - 1];
+    let count = Moves.find().count()
+    let mostRecentMove = Moves.find().fetch()[count - 1]
 
     if (mostRecentMove) {
         notify(noError, { move: mostRecentMove })
