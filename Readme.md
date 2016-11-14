@@ -1,2 +1,3 @@
-# Matey (Arrr!)
-_A player-to-player chess game in CoffeeScript and Meteor_
+# Checkmatey
+
+A player-to-player chess game in Meteor and React
