@@ -16,6 +16,8 @@ ddp@1.2.5
 ddp-client@1.2.9
 ddp-common@1.2.8
 ddp-server@1.2.10
+deanius:dispatch@0.1.0
+deanius:uni-method@0.9.1
 deps@1.0.12
 diff-sequence@1.0.7
 ecmascript@0.6.0
