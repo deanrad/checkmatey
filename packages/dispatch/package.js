@@ -16,7 +16,7 @@ Package.onUse((api) => {
   api.use('mongo');
   api.use('underscore');
   api.use('webapp');
-  api.use('deanius:uni-method');
+  api.use('deanius:uni-method@1.0.1');
 
   api.mainModule('index.js', ['client', 'server']);
 });

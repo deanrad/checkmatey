@@ -1,6 +1,7 @@
 import { composeWithTracker } from 'react-komposer'
 import ChessBoard from './ChessBoard'
 import { Games } from '/lib/collections'
+import { dispatch } from '/lib/dispatch'
 
 const composer = (params, notify) => {
     console.log('composing React props')
@@ -10,7 +11,7 @@ const composer = (params, notify) => {
     let game = (count > 0) && Games.find().fetch()[count - 1]
 
     if (game) {
-        notify(noError, { game })
+        notify(noError, { game, dispatch })
     }
 }
 
