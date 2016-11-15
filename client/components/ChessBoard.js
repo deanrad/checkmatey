@@ -5,8 +5,8 @@ import { makeMove, makeNewPositionWithMovePlayed } from '/lib/methods'
 
 const chessboardId = 'chessboard-js'
 
-let rebindChessBoard = (move) => {
-  let { position } = move
+let rebindChessBoard = (game) => {
+  let { position } = game
 
   new window.ChessBoard(chessboardId, {
     draggable: true,
@@ -35,11 +35,11 @@ export default class ChessBoard extends React.Component {
   // Lifecycle hooks to reinitialize the 3rd party chess lib
   componentDidMount() {
     console.log('R> ComponentDidMount')
-    rebindChessBoard(this.props.move)
+    rebindChessBoard(this.props.game)
   }
 
   componentDidUpdate() {
     console.log('R> ComponentDidUpdate')
-    rebindChessBoard(this.props.move)
+    rebindChessBoard(this.props.game)
   }
 }

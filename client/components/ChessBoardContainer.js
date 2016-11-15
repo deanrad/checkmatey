@@ -1,16 +1,16 @@
 import { composeWithTracker } from 'react-komposer'
 import ChessBoard from './ChessBoard'
-import { Moves } from '/lib/collections'
+import { Games } from '/lib/collections'
 
 const composer = (params, notify) => {
     console.log('composing React props')
 
     const noError = null
-    let count = Moves.find().count()
-    let mostRecentMove = Moves.find().fetch()[count - 1]
+    let count = Games.find().count()
+    let game = (count > 0) && Games.find().fetch()[count - 1]
 
-    if (mostRecentMove) {
-        notify(noError, { move: mostRecentMove })
+    if (game) {
+        notify(noError, { game })
     }
 }
 

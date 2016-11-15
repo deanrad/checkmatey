@@ -1,11 +1,10 @@
 import { Meteor } from 'meteor/meteor'
-import { Moves } from '/lib/collections'
+import { Games } from '/lib/collections'
 
 Meteor.startup(() => {
-  if (Moves.find().count() === 0) {
-    Moves.insert({
-        from: null,
-        to: null,
+  if (Games.find().count() === 0) {
+    Games.insert({
+        moves: [],
         position: {
             a8:'bR', b8:'bN', c8:'bB', d8:'bQ', e8:'bK', f8:'bB', g8:'bN', h8:'bR',
             a7:'bP', b7:'bP', c7:'bP', d7:'bP', e7:'bP', f7:'bP', g7:'bP', h7:'bP',
