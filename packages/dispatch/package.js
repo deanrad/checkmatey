@@ -5,6 +5,9 @@ Package.describe({
 });
 
 Npm.depends({
+  'mongodb-diff': '0.4.3',
+  redux: '3.6.0',
+  'redux-act': '1.1.0',
   rxjs: '5.0.0-rc.3',
   uuid: '2.0.3',
 });
