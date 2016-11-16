@@ -12,7 +12,7 @@ let rebindChessBoard = (game, dispatch) => {
         draggable: true,
         position: position,
         onDrop: (from, to) => {
-            if (from === to) { return }
+            if (from === to || (to === 'offboard')) { return }
 
             let mover = position[from]
             dispatch(Actions.Game.requestMove({ from, to, mover }))

@@ -13,23 +13,25 @@ export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Co
 
         clientMethod: (action) => {
             // TODO Implement optimistic UI
-            console.log('DA>', action)
         },
 
         serverMethod: (action) => {
             console.log('DM> ', action);
-            let promisedStore = getStore(action, Collections, Reducers)
 
-            // this little trick here uses Fibers to access the promise result 'synchronously'
-            let store = Promise.await(promisedStore)
+            if (action.meta && action.meta.store) {
+                let promisedStore = getStore(action, Collections, Reducers)
 
-            let oldState = store.getState()
-            store.dispatch(action)
-            let newState = store.getState()
+                // this little trick here uses Fibers to access the promise result 'synchronously'
+                let store = Promise.await(promisedStore)
 
-            let diffObj = diff(oldState.toJS(), newState.toJS())
-            if (! _.isEmpty(diffObj) ) {
-                store.updateDB(diffObj)
+                let oldState = store.getState()
+                store.dispatch(action)
+                let newState = store.getState()
+
+                let diffObj = diff(oldState.toJS(), newState.toJS())
+                if (! _.isEmpty(diffObj) ) {
+                    store.updateDB(diffObj)
+                }
             }
             console.log('DM> *')
         }

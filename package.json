@@ -11,6 +11,7 @@
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
     "react-komposer": "^1.13.1",
-    "react-mounter": "^1.2.0"
+    "react-mounter": "^1.2.0",
+    "rxjs": "^5.0.0-rc.3"
   }
 }
