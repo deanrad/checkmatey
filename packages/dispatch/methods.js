@@ -1,4 +1,5 @@
 import { UniMethod } from 'meteor/deanius:uni-method'
+import { _ } from 'meteor/underscore'
 import { getStore } from './store'
 import { diff } from 'mongodb-diff'
 
@@ -23,7 +24,9 @@ export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Co
             let newState = store.getState()
 
             let diffObj = diff(oldState.toJS(), newState.toJS())
-            store.updateDB(diffObj)
+            if (! _.isEmpty(diffObj) ) {
+                store.updateDB(diffObj)
+            }
             console.log('DM> *')
         }
     })
