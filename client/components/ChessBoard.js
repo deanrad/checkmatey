@@ -18,11 +18,28 @@ let rebindChessBoard = (game, dispatch) => {
   })
 }
 
+const PromotionOption = ({ showPromotionOption, dispatch }) => {
+    if (! showPromotionOption ) return null
+
+    return (
+        <div>
+            Choose a promotion option:
+            <ol>
+                <li onClick={() => {console.log('TODO dispatch Queen promtion')}}>Queen</li>
+                <li onClick={() => {console.log('TODO dispatch Knight promtion')}}>Knight</li>
+            </ol>
+        </div>
+    )
+}
+
 export default class ChessBoard extends React.Component {
   render() {
     return (
       <div>
       <h1>How about a nice game of Chess?</h1>
+
+      <PromotionOption { ...this.props } />
+
       <div id={ chessboardId } style={ {width: 600} }></div>
       </div>
     )
