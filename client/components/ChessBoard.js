@@ -15,7 +15,7 @@ let rebindChessBoard = (game, dispatch) => {
             if (from === to) { return }
 
             let mover = position[from]
-            dispatch(Actions.Game.makeMove({ from, to, mover }))
+            dispatch(Actions.Game.requestMove({ from, to, mover }))
         }
     })
 }

@@ -5,13 +5,17 @@ import { diff } from 'mongodb-diff'
 
 export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Collections }) => {
     return UniMethod.define('deanius:dispatch', {
+        mayBeFulfilledLocally: true,
+
+        validate: () => {
+            // TODO Validate the PayloadSchema based on actionType
+        },
+
         clientMethod: (action) => {
             // TODO Implement optimistic UI
             console.log('DA>', action)
         },
-        validate: () => {
-            // TODO Validate the PayloadSchema based on actionType
-        },
+
         serverMethod: (action) => {
             console.log('DM> ', action);
             let promisedStore = getStore(action, Collections, Reducers)

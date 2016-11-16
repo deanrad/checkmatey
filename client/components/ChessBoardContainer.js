@@ -20,8 +20,6 @@ if (Meteor.isClient) {
 // A 'reactive' function, managed by Tracker.autorun, which will be re-run
 // as its reactive dependencies change
 const composer = (params, renderWith) => {
-    console.log('recomposing props')
-
     let count = Games.find().count()
     let game = (count > 0) && Games.find().fetch()[count - 1]
 
