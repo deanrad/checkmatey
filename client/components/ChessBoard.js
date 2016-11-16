@@ -28,14 +28,12 @@ export default class ChessBoard extends React.Component {
     )
   }
 
-  // Lifecycle hooks to reinitialize the 3rd party chess lib
+  // Lifecycle hooks to initialize the 3rd party chess lib the first, and later times
   componentDidMount() {
-    console.log('R> ComponentDidMount')
     rebindChessBoard(this.props.game, this.props.dispatch)
   }
 
   componentDidUpdate() {
-    console.log('R> ComponentDidUpdate')
     rebindChessBoard(this.props.game, this.props.dispatch)
   }
 }

@@ -5,11 +5,14 @@ import { diff } from 'mongodb-diff'
 export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Collections }) => {
     return UniMethod.define('deanius:dispatch', {
         clientMethod: (action) => {
-            console.log('TODO Dispatch (client)', action)
+            // TODO Implement optimistic UI
+            console.log('DA>', action)
         },
-        validate: () => {/*  TODO Validate the PayloadSchema based on actionType */},
+        validate: () => {
+            // TODO Validate the PayloadSchema based on actionType
+        },
         serverMethod: (action) => {
-            console.log('M> ', action);
+            console.log('DM> ', action);
             let promisedStore = getStore(action, Collections, Reducers)
 
             // this little trick here uses Fibers to access the promise result 'synchronously'
@@ -21,7 +24,7 @@ export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Co
 
             let diffObj = diff(oldState.toJS(), newState.toJS())
             store.updateDB(diffObj)
-            console.log('M> *')
+            console.log('DM> *')
         }
     })
 }
