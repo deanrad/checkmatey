@@ -24,17 +24,17 @@ let rebindChessBoard = (game, dispatch) => {
 const PromotionOption = ({ promoOption, dispatch }) => {
     if (_.isEmpty(promoOption) ) return null
 
-    let { from, to, color } = promoOption
+    let { from, to, mover, color } = promoOption
     return (
         <div>
             Choose a promotion option:
             <ol>
                 <li onClick={() => {
-                    // TODO choose the promotion piece
-                    console.log('TODO choose the promotion piece')
-                    //dispatch(Actions.Game.requestMove({ from, to, promotionOption: 'Q' }))
+                    dispatch(Actions.Game.requestMove({ from, to, mover, promotionOption: 'Q' }))
                 }}>Queen</li>
-                <li onClick={() => {}}>Knight</li>
+                <li onClick={() => {
+                    dispatch(Actions.Game.requestMove({ from, to, mover, promotionOption: 'N' }))
+                }}>Knight</li>
             </ol>
         </div>
     )

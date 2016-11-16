@@ -23,7 +23,7 @@ export const DispatchWith = ({ Actions, PayloadSchema, Consequences, Reducers, C
     let consequence$ = action$
         .map(action => {
             let epic = consequencesOf(action, action$, Consequences).startWith(action)
-            epic.subscribe({complete: () => {console.log('DAC>*')}})
+            // epic.subscribe({complete: () => {console.log('DAC>*')}})
             return epic
         })
         .mergeAll()
