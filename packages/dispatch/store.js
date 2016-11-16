@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import { fromJS } from 'immutable'
 
-let storeCache = {}
+let storeCache = new Map()
 
 const getInitialValue = ({ type, meta }, Collections) => {
     return Promise.resolve()
@@ -14,7 +14,6 @@ const getInitialValue = ({ type, meta }, Collections) => {
             }
         })
         .then(doc => fromJS(doc))
-        .then(iDocument => iDocument.delete('_id'))
 }
 
 const createReducer = (mapActionsToReducers, initialValue) => {
@@ -25,34 +24,42 @@ const createReducer = (mapActionsToReducers, initialValue) => {
     }
 }
 
-const promisedStore = (action, Collections, Reducers) => {
+// Returns a promise for the store which it makes from the promised initialValue
+const constructStore = (action, Collections, Reducers) => {
     let [ entity ] = action.type.split('.')
+    let { collection } = action.meta.store
 
     return getInitialValue(action, Collections)
         .then(initialValue => {
             let entityReducer = createReducer(Reducers[entity], initialValue)
-            return createStore(entityReducer, initialValue)
+            let store = createStore(entityReducer, initialValue)
+
+            store.updateDB = (diff) => {
+                let id = initialValue.get('_id')
+                console.log(`DB> Updating ${collection}:${id} with`, diff)
+
+                return Collections[collection].update(id, diff)
+            }
+            return store
         })
 }
 
+// Returns a promise for the store whether cached or constructed+cached
 export const getStore = (action, Collections, Reducers) => {
     let { collection, id } = action.meta.store
 
-    let storeId = `${collection}:${id}`
-    let cached = storeCache[storeId]
+    let storeId = Symbol.for(`${collection}:${id}`)
+    let cached = storeCache.get(storeId)
 
-    console.log(`DS> Getting ${cached ? '(cached)' : ''} store for ${storeId}:`)
+    console.log(`DS> Getting ${cached ? '(cached)' : ''} store for ${collection}:${id}`)
 
     if (cached) {
         return Promise.resolve(cached)
-    } else {
-        // a promise for the store, once cached
-        return promisedStore(action, Collections, Reducers)
-            .then(store => {
-                // console.log('DS> Created, caching store: ', store.getState())
-                storeCache[storeId] = store
-                return store
-            })
-
     }
+
+    return constructStore(action, Collections, Reducers)
+        .then(store => {
+            storeCache.set(storeId, store)
+            return store
+        })
 }

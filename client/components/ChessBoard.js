@@ -1,8 +1,7 @@
 /* global: window.ChessBoard */
 import { Meteor } from 'meteor/meteor'
 import React from 'react'
-import { makeMove, makeNewPositionWithMovePlayed } from '/lib/methods'
-import { Actions } from '/lib/dispatch'
+import { dispatch, Actions } from '/lib/dispatch'
 
 const chessboardId = 'chessboard-js'
 
@@ -13,7 +12,7 @@ let rebindChessBoard = (game, dispatch) => {
     draggable: true,
     position: position,
     onDrop: (from, to) => {
-      let newPos = makeNewPositionWithMovePlayed(position, { from, to })
+      if (from === to) { return }
       dispatch(Actions.Game.makeMove({ from, to }))
     }
   })

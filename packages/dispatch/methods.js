@@ -7,9 +7,12 @@ export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Co
         clientMethod: (action) => {
             console.log('TODO Dispatch (client)', action)
         },
+        validate: () => {/*  TODO Validate the PayloadSchema based on actionType */},
         serverMethod: (action) => {
             console.log('M> ', action);
             let promisedStore = getStore(action, Collections, Reducers)
+
+            // this little trick here uses Fibers to access the promise result 'synchronously'
             let store = Promise.await(promisedStore)
 
             let oldState = store.getState()
@@ -17,11 +20,8 @@ export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Co
             let newState = store.getState()
 
             let diffObj = diff(oldState.toJS(), newState.toJS())
-            console.log('D>', diffObj)
+            store.updateDB(diffObj)
             console.log('M> *')
-            // LEFTOFF
-            //promisedStore.then(store => console.log('Store:', store.getState()))
-
         }
     })
 }

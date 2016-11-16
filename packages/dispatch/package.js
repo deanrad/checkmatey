@@ -1,6 +1,6 @@
 Package.describe({
   name: 'deanius:dispatch',
-  version: '0.1.0',
+  version: '0.7.0',
   summary: 'Business Process Layer',
 });
 
