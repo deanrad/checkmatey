@@ -1,5 +1,6 @@
 /* global: window.ChessBoard */
 import { Meteor } from 'meteor/meteor'
+import { _ } from 'meteor/underscore'
 import React from 'react'
 import { dispatch, Actions } from '/lib/dispatch'
 
@@ -20,15 +21,20 @@ let rebindChessBoard = (game, dispatch) => {
     })
 }
 
-const PromotionOption = ({ showPromotionOption, dispatch }) => {
-    if (! showPromotionOption ) return null
+const PromotionOption = ({ promoOption, dispatch }) => {
+    if (_.isEmpty(promoOption) ) return null
 
+    let { from, to, color } = promoOption
     return (
         <div>
             Choose a promotion option:
             <ol>
-                <li onClick={() => {console.log('TODO dispatch Queen promtion')}}>Queen</li>
-                <li onClick={() => {console.log('TODO dispatch Knight promtion')}}>Knight</li>
+                <li onClick={() => {
+                    // TODO choose the promotion piece
+                    console.log('TODO choose the promotion piece')
+                    //dispatch(Actions.Game.requestMove({ from, to, promotionOption: 'Q' }))
+                }}>Queen</li>
+                <li onClick={() => {}}>Knight</li>
             </ol>
         </div>
     )

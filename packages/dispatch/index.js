@@ -21,7 +21,11 @@ export const DispatchWith = ({ Actions, PayloadSchema, Consequences, Reducers, C
     let universalMethod = getDispatch({ Actions, PayloadSchema, Consequences, Reducers, Collections })
 
     let consequence$ = action$
-        .map(action => consequencesOf(action, action$, Consequences).startWith(action))
+        .map(action => {
+            let epic = consequencesOf(action, action$, Consequences).startWith(action)
+            epic.subscribe({complete: () => {console.log('DAC>*')}})
+            return epic
+        })
         .mergeAll()
 
     consequence$.subscribe(consequence => {console.log('DAC>', consequence.toJS()) })
@@ -34,8 +38,11 @@ export const DispatchWith = ({ Actions, PayloadSchema, Consequences, Reducers, C
     return {
         // dispatch puts an immutable action onto the stream, which subscribers will react to accordingly
         dispatch: (action) => {
+            console.log('D>', action)
             let iAction = stampFields(fromJS(action))
             actions.next(iAction)
-        }
+        },
+        // consequence$ is the merged stream of all items, prior to being considered for sending
+        consequence$
     }
 }
