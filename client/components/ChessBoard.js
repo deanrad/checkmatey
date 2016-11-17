@@ -22,10 +22,11 @@ let rebindChessBoard = (game, dispatch) => {
     })
 }
 
-const PromotionOption = ({ promoOption, dispatch }) => {
-    if (_.isEmpty(promoOption) ) return null
+const PromotionOption = ({ game, dispatch }) => {
+    let { ui } = game
+    if (! (ui && ui.promotionOption) ) return null
 
-    let { from, to, mover, color } = promoOption
+    let { from, to, mover, color } = ui.promotionOption
     return (
         <div>
             Choose a promotion option:
