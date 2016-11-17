@@ -9,6 +9,7 @@ const chessboardId = 'chessboard-js'
 let rebindChessBoard = (game, dispatch) => {
     let { position } = game
 
+    window.game = game
     new window.ChessBoard(chessboardId, {
         draggable: true,
         position: position,
