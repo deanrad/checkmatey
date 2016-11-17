@@ -81,7 +81,9 @@ const constructStore = (action, { Collections, Reducers, Epics, dispatchMethod }
 // Returns a promise for the store whether cached or constructed+cached
 export const getStore = (action, { Collections, Reducers, Epics, dispatchMethod }) => {
     let { collection, id } = action.meta.store
-
+    if (!id) {
+        id = Collections[collection].findOne()._id
+    }
     let storeId = Symbol.for(`${collection}:${id}`)
     let cached = storeCache.get(storeId)
 
