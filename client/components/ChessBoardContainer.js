@@ -1,7 +1,7 @@
 import { composeWithTracker } from 'react-komposer'
 import ChessBoard from './ChessBoard'
 import { Games } from '/lib/collections'
-import { dispatch, promoOption } from '/lib/dispatch'
+import { dispatch, allStores } from '/lib/dispatch'
 
 // A 'reactive' function, managed by Tracker.autorun, which will be re-run
 // as its reactive dependencies change
@@ -9,11 +9,19 @@ const composer = (params, renderWith) => {
     let count = Games.find().count()
     let game = (count > 0) && Games.find().fetch()[count - 1]
 
+    let store = (allStores.size > 0) && Array.from(allStores.values())[0]
     let eventHandlers = { dispatch }
     let dataFields = { game }
+    let displayFields = {}
 
-    // TODO allow for a Game.showPromotionOption action to trigger this
-    let displayFields = { promoOption: promoOption.get() }
+    if (store) {
+        window.store = store
+        store.hasChanged.depend()
+        let uiFields = store.getState().get('ui')
+        if (uiFields) {
+            Object.assign(displayFields, { ui: uiFields.toJS() })
+        }
+    }
 
     const noError = null
     if (game) {

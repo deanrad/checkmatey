@@ -16,8 +16,5 @@ const action$ = actions.asObservable()
 //
 // It will likely export `dispatch` to containers, that will share it via props.
 export const DispatchWith = ({ Actions, PayloadSchema, Epics, Reducers, Collections }) => {
-    // UniMethod: returns Promise from the client, runs sync on server
-    return {
-        dispatch: getDispatch({ Actions, PayloadSchema, Epics, Reducers, Collections })
-    }
+    return getDispatch({ Actions, PayloadSchema, Epics, Reducers, Collections })
 }

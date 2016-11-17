@@ -22,8 +22,7 @@ let rebindChessBoard = (game, dispatch) => {
     })
 }
 
-const PromotionOption = ({ game, dispatch }) => {
-    let { ui } = game
+const PromotionOption = ({ ui, dispatch }) => {
     if (! (ui && ui.promotionOption) ) return null
 
     let { from, to, mover, color } = ui.promotionOption

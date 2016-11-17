@@ -3,7 +3,7 @@ import { applyMiddleware, compose, createStore } from 'redux'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
 import Rx from 'rxjs/Rx'
 
-let storeCache = new Map()
+export const allStores = new Map()
 
 const getInitialValue = ({ type, meta }, Collections) => {
     return Promise.resolve()
@@ -72,7 +72,9 @@ const constructStore = (action, { Collections, Reducers, Epics, dispatchMethod }
                 expandedAction$
             })
             if (Meteor.isClient) {
+                store.hasChanged = new Tracker.Dependency()
                 store.expandedAction$.subscribe(dispatchMethod)
+                store.expandedAction$.subscribe(() => store.hasChanged.changed())
             }
             return store
         })
@@ -85,7 +87,7 @@ export const getStore = (action, { Collections, Reducers, Epics, dispatchMethod 
         id = Collections[collection].findOne()._id
     }
     let storeId = Symbol.for(`${collection}:${id}`)
-    let cached = storeCache.get(storeId)
+    let cached = allStores.get(storeId)
 
     console.log(`DS> Getting ${cached ? '(cached)' : ''} store for ${collection}:${id}`)
 
@@ -95,7 +97,7 @@ export const getStore = (action, { Collections, Reducers, Epics, dispatchMethod 
 
     return constructStore(action, { Collections, Reducers, Epics, dispatchMethod })
         .then(store => {
-            storeCache.set(storeId, store)
+            allStores.set(storeId, store)
             return store
         })
 }
