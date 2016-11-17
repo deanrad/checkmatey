@@ -3,23 +3,28 @@ import { _ } from 'meteor/underscore'
 import { getStore } from './store'
 import { diff } from 'mongodb-diff'
 
-export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Collections }) => {
+export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collections }) => {
     return UniMethod.define('deanius:dispatch', {
-        mayBeFulfilledLocally: true,
+        mayBeLocallyFulfilled: true,
 
         validate: () => {
             // TODO Validate the PayloadSchema based on actionType
         },
 
         clientMethod: (action) => {
-            // TODO Implement optimistic UI
+            console.log('DM> ', action);
+            let promisedStore = getStore(action, { Collections, Reducers, Epics })
+
+            // returning a truthy value keeps it from going to the server
+            // NOTE: important that the return value from store.dispatch is a value, or resolved
+            return promisedStore.then(store => store.dispatch(action))
         },
 
         serverMethod: (action) => {
             console.log('DM> ', action);
 
             if (action.meta && action.meta.store) {
-                let promisedStore = getStore(action, Collections, Reducers)
+                let promisedStore = getStore(action, { Collections, Reducers, Epics })
 
                 // this little trick here uses Fibers to access the promise result 'synchronously'
                 let store = Promise.await(promisedStore)
