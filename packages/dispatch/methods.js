@@ -4,7 +4,7 @@ import { getStore } from './store'
 import { diff } from 'mongodb-diff'
 
 export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collections }) => {
-    let universalMethod = UniMethod.define('deanius:dispatch', {
+    let dispatchMethod = UniMethod.define('deanius:dispatch', {
         mayBeLocallyFulfilled: true,
 
         validate: () => {
@@ -12,7 +12,9 @@ export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collectio
         },
 
         clientMethod: (action) => {
-            console.log('DM> ', action);
+            let staysLocal = (action.meta && action.meta.mayBeFulfilledLocally)
+            console.log(`DM> (${staysLocal ? 'drop' : 'send'})`, action)
+            return staysLocal
         },
 
         serverMethod: (action) => {
@@ -37,8 +39,10 @@ export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collectio
         }
     })
 
+    // a wrapper function that gets or makes the store
+    // with a subscription of most events to dispatchMethod
     return (action) => {
-        let promisedStore = getStore(action, { Collections, Reducers, Epics })
+        let promisedStore = getStore(action, { Collections, Reducers, Epics, dispatchMethod })
 
         // returning a truthy value keeps it from going to the server
         // NOTE: important that the return value from store.dispatch is a value, or resolved

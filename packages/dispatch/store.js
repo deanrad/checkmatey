@@ -48,7 +48,7 @@ const expandedActionMiddleware = (/* store */) => next => action => {
 const expandedAction$ = expandedAction.asObservable()
 
 // Returns a promise for the store which it makes from the promised initialValue
-const constructStore = (action, { Collections, Reducers, Epics }) => {
+const constructStore = (action, { Collections, Reducers, Epics, dispatchMethod }) => {
     let [ entity ] = action.type.split('.')
     let { collection } = action.meta.store
 
@@ -71,14 +71,15 @@ const constructStore = (action, { Collections, Reducers, Epics }) => {
                 state$: storeToObservable(store),
                 expandedAction$
             })
-
-            store.expandedAction$.subscribe(a => console.log('DA> action dispatched: ', a))
+            if (Meteor.isClient) {
+                store.expandedAction$.subscribe(dispatchMethod)
+            }
             return store
         })
 }
 
 // Returns a promise for the store whether cached or constructed+cached
-export const getStore = (action, { Collections, Reducers, Epics }) => {
+export const getStore = (action, { Collections, Reducers, Epics, dispatchMethod }) => {
     let { collection, id } = action.meta.store
 
     let storeId = Symbol.for(`${collection}:${id}`)
@@ -90,7 +91,7 @@ export const getStore = (action, { Collections, Reducers, Epics }) => {
         return Promise.resolve(cached)
     }
 
-    return constructStore(action, { Collections, Reducers, Epics })
+    return constructStore(action, { Collections, Reducers, Epics, dispatchMethod })
         .then(store => {
             storeCache.set(storeId, store)
             return store
