@@ -1,25 +1,27 @@
 import { UniMethod } from 'meteor/deanius:uni-method'
 import { _ } from 'meteor/underscore'
-import { getStore } from './store'
+import { getStore, allStores } from './store'
 import { diff } from 'mongodb-diff'
 
-export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Collections }) => {
-    return UniMethod.define('deanius:dispatch', {
-        mayBeFulfilledLocally: true,
+export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collections }) => {
+    let dispatchMethod = UniMethod.define('deanius:dispatch', {
+        mayBeLocallyFulfilled: true,
 
         validate: () => {
             // TODO Validate the PayloadSchema based on actionType
         },
 
         clientMethod: (action) => {
-            // TODO Implement optimistic UI
+            let staysLocal = (action.meta && action.meta.mayBeFulfilledLocally)
+            console.log(`DM> (${staysLocal ? 'drop' : 'send'})`, action)
+            return staysLocal
         },
 
         serverMethod: (action) => {
             console.log('DM> ', action);
 
             if (action.meta && action.meta.store) {
-                let promisedStore = getStore(action, Collections, Reducers)
+                let promisedStore = getStore(action, { Collections, Reducers, Epics })
 
                 // this little trick here uses Fibers to access the promise result 'synchronously'
                 let store = Promise.await(promisedStore)
@@ -36,4 +38,17 @@ export const getDispatch = ({ Actions, PayloadSchema, Consequences, Reducers, Co
             console.log('DM> *')
         }
     })
+
+    // a wrapper function that gets or makes the store
+    // with a subscription of most events to dispatchMethod
+    return {
+        dispatch: (action) => {
+            let promisedStore = getStore(action, { Collections, Reducers, Epics, dispatchMethod })
+
+            // returning a truthy value keeps it from going to the server
+            // NOTE: important that the return value from store.dispatch is a value, or resolved
+            return promisedStore.then(store => store.dispatch(action))
+        },
+        allStores
+    }
 }

@@ -9,6 +9,7 @@ const chessboardId = 'chessboard-js'
 let rebindChessBoard = (game, dispatch) => {
     let { position } = game
 
+    window.game = game
     new window.ChessBoard(chessboardId, {
         draggable: true,
         position: position,
@@ -21,10 +22,10 @@ let rebindChessBoard = (game, dispatch) => {
     })
 }
 
-const PromotionOption = ({ promoOption, dispatch }) => {
-    if (_.isEmpty(promoOption) ) return null
+const PromotionOption = ({ ui, dispatch }) => {
+    if (! (ui && ui.promotionOption) ) return null
 
-    let { from, to, mover, color } = promoOption
+    let { from, to, mover, color } = ui.promotionOption
     return (
         <div>
             Choose a promotion option:
