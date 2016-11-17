@@ -4,7 +4,7 @@ import { getStore } from './store'
 import { diff } from 'mongodb-diff'
 
 export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collections }) => {
-    return UniMethod.define('deanius:dispatch', {
+    let universalMethod = UniMethod.define('deanius:dispatch', {
         mayBeLocallyFulfilled: true,
 
         validate: () => {
@@ -13,11 +13,6 @@ export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collectio
 
         clientMethod: (action) => {
             console.log('DM> ', action);
-            let promisedStore = getStore(action, { Collections, Reducers, Epics })
-
-            // returning a truthy value keeps it from going to the server
-            // NOTE: important that the return value from store.dispatch is a value, or resolved
-            return promisedStore.then(store => store.dispatch(action))
         },
 
         serverMethod: (action) => {
@@ -41,4 +36,12 @@ export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collectio
             console.log('DM> *')
         }
     })
+
+    return (action) => {
+        let promisedStore = getStore(action, { Collections, Reducers, Epics })
+
+        // returning a truthy value keeps it from going to the server
+        // NOTE: important that the return value from store.dispatch is a value, or resolved
+        return promisedStore.then(store => store.dispatch(action))
+    }
 }
