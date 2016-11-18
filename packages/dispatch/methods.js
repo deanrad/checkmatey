@@ -1,6 +1,6 @@
 import { UniMethod } from 'meteor/deanius:uni-method'
 import { _ } from 'meteor/underscore'
-import { getStore, allStores } from './store'
+import { getStore, activeStore } from './store'
 import { diff } from 'mongodb-diff'
 
 export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collections }) => {
@@ -49,6 +49,6 @@ export const getDispatch = ({ Actions, PayloadSchema, Epics, Reducers, Collectio
             // NOTE: important that the return value from store.dispatch is a value, or resolved
             return promisedStore.then(store => store.dispatch(action))
         },
-        allStores
+        activeStore
     }
 }

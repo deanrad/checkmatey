@@ -1,9 +1,11 @@
+import { ReactiveVar } from 'meteor/reactive-var'
 import { fromJS } from 'immutable'
 import { applyMiddleware, compose, createStore } from 'redux'
 import { createEpicMiddleware, combineEpics } from 'redux-observable'
 import Rx from 'rxjs/Rx'
 
 export const allStores = new Map()
+export const activeStore = new ReactiveVar()
 
 const getInitialValue = ({ type, meta }, Collections) => {
     return Promise.resolve()
@@ -98,6 +100,7 @@ export const getStore = (action, { Collections, Reducers, Epics, dispatchMethod 
     return constructStore(action, { Collections, Reducers, Epics, dispatchMethod })
         .then(store => {
             allStores.set(storeId, store)
+            activeStore.set(store)
             return store
         })
 }
